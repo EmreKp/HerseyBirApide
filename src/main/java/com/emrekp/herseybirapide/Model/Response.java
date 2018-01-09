@@ -3,6 +3,7 @@ package com.emrekp.herseybirapide.Model;
 public class Response {
     private String tarih,saat;
     private Float dolar,euro,sterlin;
+    private Integer bitcoin,ethereum;
     private Integer istanbul,ankara,izmir;
 
     public String getTarih() {
@@ -43,6 +44,22 @@ public class Response {
 
     public void setSterlin(Float sterlin) {
         this.sterlin = sterlin;
+    }
+
+    public Integer getBitcoin() {
+        return bitcoin;
+    }
+
+    public void setBitcoin(Integer bitcoin) {
+        this.bitcoin = bitcoin;
+    }
+
+    public Integer getEthereum() {
+        return ethereum;
+    }
+
+    public void setEthereum(Integer ethereum) {
+        this.ethereum = ethereum;
     }
 
     public Integer getIstanbul() {

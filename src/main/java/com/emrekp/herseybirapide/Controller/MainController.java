@@ -5,9 +5,11 @@ import com.emrekp.herseybirapide.Model.NamazTimes.Ilce;
 import com.emrekp.herseybirapide.Model.NamazTimes.Sehir;
 import com.emrekp.herseybirapide.Model.NamazTimes.Vakit;
 import com.emrekp.herseybirapide.Model.Response;
+import com.emrekp.herseybirapide.Service.CryptocoinService;
 import com.emrekp.herseybirapide.Service.CurrencyService;
 import com.emrekp.herseybirapide.Service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,12 +26,15 @@ import java.util.List;
 public class MainController {
     private WeatherService weatherService;
     private CurrencyService currencyService;
+    private CryptocoinService cryptocoinService;
     private RestTemplate restTemplate;
 
     @Autowired
-    public MainController(WeatherService weatherService, CurrencyService currencyService, RestTemplate restTemplate) {
+    public MainController(WeatherService weatherService, CurrencyService currencyService, CryptocoinService cryptocoinService,
+                          RestTemplate restTemplate) {
         this.weatherService = weatherService;
         this.currencyService = currencyService;
+        this.cryptocoinService = cryptocoinService;
         this.restTemplate = restTemplate;
     }
 
@@ -55,6 +60,10 @@ public class MainController {
         response.setDolar(currencyService.neKadar("USD"));
         response.setEuro(currencyService.neKadar("EUR"));
         response.setSterlin(currencyService.neKadar("GBP"));
+
+        //cryptocurrency
+        response.setBitcoin(cryptocoinService.coinAl("BTC").intValue());
+        response.setEthereum(cryptocoinService.coinAl("ETH").intValue());
 
         return response;
     }
@@ -97,4 +106,6 @@ public class MainController {
     }
 
     //TODO puan durumu ekle
+
+    //ÖNEMLİ NOT: Rest Controller ve viewlar ayrı yerlerde olmalıdırlar
 }
