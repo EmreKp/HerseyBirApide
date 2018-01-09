@@ -1,20 +1,22 @@
 package com.emrekp.herseybirapide.Controller;
 
-import com.emrekp.herseybirapide.Model.CurrencyResponse;
+import com.emrekp.herseybirapide.Model.Namaz;
+import com.emrekp.herseybirapide.Model.NamazTimes.Ilce;
+import com.emrekp.herseybirapide.Model.NamazTimes.Sehir;
+import com.emrekp.herseybirapide.Model.NamazTimes.Vakit;
 import com.emrekp.herseybirapide.Model.Response;
 import com.emrekp.herseybirapide.Service.CurrencyService;
 import com.emrekp.herseybirapide.Service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.xml.bind.JAXBException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -47,6 +49,7 @@ public class MainController {
         response.setIstanbul(weatherService.getWeather("İstanbul"));
         response.setAnkara(weatherService.getWeather("Ankara"));
         response.setIzmir(weatherService.getWeather("İzmir"));
+        //TODO havanın nasıl olacağını da bi şekilde ekle
 
         //currency
         response.setDolar(currencyService.neKadar("USD"));
@@ -55,4 +58,43 @@ public class MainController {
 
         return response;
     }
+
+    @RequestMapping("/namaz")
+    public Namaz namaz(@RequestParam String il) throws Exception {
+        Namaz namaz = new Namaz();
+        String baseURL = "https://ezanvakti.herokuapp.com";
+        Sehir[] sehirObj = restTemplate.getForObject(baseURL + "/sehirler?ulke=2", Sehir[].class);
+        List<Sehir> sehirler = Arrays.asList(sehirObj);
+        Integer sehirID = null;
+        String sehirAd = null;
+        for (Sehir sehir : sehirler) {
+            if (sehir.getSehirAdi().equalsIgnoreCase(il)) {
+                sehirID = sehir.getSehirID();
+                sehirAd = sehir.getSehirAdi();
+                break;
+            }
+        } //şimdi şehirdeki ilçelere bak aynı isimi görürsen yapış
+        Ilce[] ilceObj = restTemplate.getForObject(baseURL + "/ilceler?sehir=" + sehirID, Ilce[].class);
+        List<Ilce> ilceler = Arrays.asList(ilceObj);
+        Integer ilceID = null;
+        for (Ilce ilce : ilceler) {
+            if (ilce.getIlceAdi().equals(sehirAd)) {
+                ilceID = ilce.getIlceID();
+                break;
+            }
+        }
+
+        Vakit[] vakitObj = restTemplate.getForObject(baseURL + "/vakitler?ilce=" + ilceID, Vakit[].class);
+        List<Vakit> vakitler = Arrays.asList(vakitObj);
+        Vakit vakit = vakitler.get(0); //ilki bugün
+        namaz.setSabah(vakit.getGunes());
+        namaz.setOgle(vakit.getOgle());
+        namaz.setIkindi(vakit.getIkindi());
+        namaz.setAksam(vakit.getAksam());
+        namaz.setYatsi(vakit.getYatsi());
+
+        return namaz;
+    }
+
+    //TODO puan durumu ekle
 }
