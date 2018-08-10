@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.emrekp.gunaydin.model.Currency;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class CurrencyService {
 		this.handler = handler;
 	}
 
-	public List<Currency> getCurrencies() {
-		return this.handler.getCurrencies();
+	public List<Currency> getCurrencies(List<String> units) {
+		return this.handler.getCurrencies(units);
 	}
 }

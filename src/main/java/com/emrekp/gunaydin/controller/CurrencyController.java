@@ -21,7 +21,7 @@ public class CurrencyController {
 
 	@GetMapping("/doviz")
 	public @ResponseBody
-	List<Currency> getCurrency(@RequestParam(required = false) List<String> currencies) {
-		return currencyService.getCurrencies(); //TODO adaptörü düzenle
+	List<Currency> getCurrency(@RequestParam(required = false) List<String> units) {
+		return currencyService.getCurrencies(units);
 	}
 }

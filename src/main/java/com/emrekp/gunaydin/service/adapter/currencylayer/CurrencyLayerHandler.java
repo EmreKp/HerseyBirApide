@@ -16,8 +16,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class CurrencyLayerHandler implements CurrencyHandler {
+	@Override
+	public List<Currency> getCurrencies(List<String> units) {
+		return null;
+	}
 
-	@Value("${currency.url}")
+	/*@Value("${currency.url}")
 	private String url;
 
 	@Value("${currencylayer.api_key}")
@@ -38,7 +42,7 @@ public class CurrencyLayerHandler implements CurrencyHandler {
 
 		if (currencies != null) {
 			currencyParams = String.join(",", currencies);
-		}*/
+		}
 
 		//get from rest
 		CurrencyLayerModel currencyLayer = restTemplate.getForObject(
@@ -70,6 +74,5 @@ public class CurrencyLayerHandler implements CurrencyHandler {
 		goldCurrency.setValue(goldGr);
 
 		//create list
-		return Arrays.asList(usdCurrency, eurCurrency, gbpCurrency, goldCurrency);
-	}
+		return Arrays.asList(usdCurrency, eurCurrency, gbpCurrency, goldCurrency);*/
 }
