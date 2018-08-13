@@ -9,6 +9,10 @@ public class MainModel {
 	private BigDecimal pound;
 	private BigDecimal altin;
 
+	private Integer istanbul;
+	private Integer ankara;
+	private Integer izmir;
+
 	public BigDecimal getDolar() {
 		return dolar;
 	}
@@ -39,5 +43,29 @@ public class MainModel {
 
 	public void setAltin(BigDecimal altin) {
 		this.altin = altin;
+	}
+
+	public Integer getIstanbul() {
+		return istanbul;
+	}
+
+	public void setIstanbul(Integer istanbul) {
+		this.istanbul = istanbul;
+	}
+
+	public Integer getAnkara() {
+		return ankara;
+	}
+
+	public void setAnkara(Integer ankara) {
+		this.ankara = ankara;
+	}
+
+	public Integer getIzmir() {
+		return izmir;
+	}
+
+	public void setIzmir(Integer izmir) {
+		this.izmir = izmir;
 	}
 }

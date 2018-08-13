@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.emrekp.gunaydin.model.Currency;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
